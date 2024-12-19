@@ -203,11 +203,22 @@ export const updateUser = async(req, res)=>{
         }
 
         if(about){
-            user.about.name= about.name;
-            user.about.title= about.title;
-            user.about.subtitle= about.subtitle;
-            user.about.description= about.description;
-            user.about.quote = about.quote;
+            if (about.name) {
+                user.about.name = about.name;
+              }
+              if (about.title) {
+                user.about.title = about.title;
+              }
+              if (about.subtitle) {
+                user.about.subtitle = about.subtitle;
+              }
+        
+              if (about.description) {
+                user.about.description = about.description;
+              }
+              if (about.quote) {
+                user.about.quote = about.quote;
+              }
 
             if(about.avatar){
                 await cloudinary.v2.uploader.destroy(user.about.avatar.public_id);
@@ -215,8 +226,8 @@ export const updateUser = async(req, res)=>{
                     folder:"portfolio",
                 });
                 user.about.avatar ={
-                    public_id:myCloud.public_id,
-                    url:myCloud.secure_url,
+                    public_id: myCloud.public_id,
+                    url: myCloud.secure_url,
                 }
             }
         }
@@ -340,6 +351,54 @@ export const deleteTimeline = async(req, res)=>{
         res.status(200).json({
             success:true,
             message: "Deleted from timeline"
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
+
+export const deleteYoutube = async(req, res)=>{
+    try {
+        const {id} = req.params;
+        const user = await User.findById(req.user._id); 
+
+        const video = user.youtube.filter((video)=>video._id !== id);
+        await cloudinary.v2.uploader.destroy(video.image.public_id);
+
+        user.youtube= user.youtube.filter((video)=>video._id !== id);
+
+        await user.save();
+
+        res.status(200).json({
+            success:true,
+            message: "Deleted from Youtube"
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
+
+export const deleteProject= async(req, res)=>{
+    try {
+        const {id} = req.params;
+        const user = await User.findById(req.user._id); 
+
+        const project= user.projects.filter((item)=>item._id !== id);
+        await cloudinary.v2.uploader.destroy(project.image.public_id);
+
+        user.projects= user.projects.filter((video)=>video._id !== id);
+
+        await user.save();
+
+        res.status(200).json({
+            success:true,
+            message: "Deleted from Projects"
         })
     } catch (error) {
         return res.status(400).json({
