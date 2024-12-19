@@ -76,7 +76,7 @@ const userSchema = new mongoose.Schema({
         name: String,
         title: String,
         subtitle: String,
-        descriptiion: String,
+        description: String,
         quote: String,
         avatar:{
            public_id: String,
