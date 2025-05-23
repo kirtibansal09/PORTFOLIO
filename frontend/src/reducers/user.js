@@ -1,8 +1,11 @@
 import {createReducer} from "@reduxjs/toolkit"
 
 const initialState = {
-    loading:true
-}
+    loading: false,
+    isAuthenticated: false,
+    message: null,
+    error: null,
+  };
 export const userReducer = createReducer(initialState, (builder) => {
     builder
         .addCase("GET_USER_REQUEST", (state) => {
@@ -21,7 +24,7 @@ export const userReducer = createReducer(initialState, (builder) => {
         });
 });
 
-export const loginReducer = createReducer({}, (builder) => {
+export const loginReducer = createReducer(initialState, (builder) => {
     builder
         .addCase("LOGIN_REQUEST", (state) => {
             state.loading = true;
@@ -33,6 +36,21 @@ export const loginReducer = createReducer({}, (builder) => {
             state.message = action.payload;
         })
         .addCase("LOGIN_FAILURE", (state, action) => {
+            state.isAuthenticated = false;
+            state.loading = false;
+            state.error = action.payload;
+        })
+
+        .addCase("LOAD_USER_REQUEST", (state) => {
+            state.loading = true;
+            state.isAuthenticated = false;
+        })
+        .addCase("LOAD_USER_SUCCESS", (state, action) => {
+            state.loading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+        })
+        .addCase("LOAD_USER_FAILURE", (state, action) => {
             state.isAuthenticated = false;
             state.loading = false;
             state.error = action.payload;
@@ -55,8 +73,62 @@ export const loginReducer = createReducer({}, (builder) => {
         .addCase("CLEAR_ERRORS", (state) => {
             state.error = null;
         })
-        .addCase("CLEAR_MESSAGES", (state) => {
+        .addCase("CLEAR_MESSAGE", (state) => {
             state.message = null;
         });
 
+});
+
+export const updateReducer = createReducer(initialState, (builder) => {
+    builder
+        .addCase("UPDATE_USER_REQUEST", (state) => {
+            state.loading = true;
+        })
+        .addCase("UPDATE_USER_SUCCESS", (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase("UPDATE_USER_FAILURE", (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase("ADD_TIMELINE_REQUEST", (state) => {
+            state.loading = true;
+        })
+        .addCase("ADD_TIMELINE_SUCCESS", (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase("ADD_TIMELINE_FAILURE", (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase("DELETE_TIMELINE_REQUEST", (state) => {
+            state.loading = true;
+        })
+        .addCase("DELETE_TIMELINE_SUCCESS", (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase("DELETE_TIMELINE_FAILURE", (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase("CONTACT_US_REQUEST", (state) => {
+            state.loading = true;
+        })
+        .addCase("CONTACT_US_SUCCESS", (state, action) => {
+            state.loading = false;
+            state.message = action.payload;
+        })
+        .addCase("CONTACT_US_FAILURE", (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase("CLEAR_ERRORS", (state) => {
+            state.error = null;
+        })
+        .addCase("CLEAR_MESSAGES", (state) => {
+            state.message = null;
+        });
 });

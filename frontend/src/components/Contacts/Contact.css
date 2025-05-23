@@ -14,87 +14,124 @@
     right: 0;
 }
 
-.contactContainer{
-    height: 80%;
-    width: 70%;
-    background-color: white;
-    position: absolute;
-    border-radius: 100px 0 0 100px;
-    top: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.473);
-    display: flex;
-    justify-content: center;
-    animation: contactTransition 1s linear forwards;
+.contactContainer {
+  height: 80%;
+  width: 70%;
+  background-color: white;
+  position: absolute;
+  border-radius: 100px 0 0 100px;
+  top: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.473);
+  display: flex;
+  justify-content: space-between;
+  padding: 2vmax;
+  animation: contactTransition 1s linear forwards;
 }
 
-.contactContainerForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly ;
-    width: 50%;
+.contactInfo {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2vmax;
+  box-sizing: border-box;
 }
 
-.contactContainerForm > h4{
-    text-align: center;
-    margin: 1vmax;
+.contactInfo > h4 {
+  text-align: center;
+  margin-bottom: 2vmax;
+}
+
+.contactInfoItem {
+  display: flex;
+  align-items: center;
+  margin: 1vmax 0;
+  font-size: 1.2rem;
+}
+
+.contactContainerForm {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  animation: contactFormInputs 1s ease-in-out forwards 0.5s;
+}
+
+.contactContainerForm > h4 {
+  text-align: center;
+  margin: 1vmax;
 }
 
 .contactContainerForm > input,
 .contactContainerForm > textarea {
-    padding: 1vmax;
-    outline: none;
-    border-radius: 3px;
-    font-size: 1rem;
-    font-family: "Roboto";
-    border: 1px solid rgba(0, 0, 0, 0.205);
-    transform: translateX(-100vw);
-    animation: contactFormInputs 1s ease-in-out forwards 0.5s;
+  padding: 1vmax;
+  outline: none;
+  border-radius: 3px;
+  font-size: 1rem;
+  font-family: "Roboto";
+  border: 1px solid rgba(0, 0, 0, 0.205);
+  transform: translateX(-100vw);
+  animation: contactFormInputs 1s ease-in-out forwards 0.5s;
 }
 
 .contactContainerForm > button {
-    background-color: hsl(102,63.1%,59.6%);
-    transform: translateY(-100vh);
-    animation: contactFormBtn 1s ease-in-out forwards 1s;
+  background-color: hsl(102,63.1%,59.6%);
+  transform: translateY(-100vh);
+  animation: contactFormBtn 1s ease-in-out forwards 1s;
 }
 
-.contactContainerForm > button:hover{
-    background-color: hsl(219, 48%, 8%);
+.contactContainerForm > button:hover {
+  background-color: hsl(219, 48%, 8%);
 }
 
 @keyframes contactTransition {
-    from{
-        transform: translateX(-100%) translateY(-50%);
-    }
-
-    to{
-        transform: translateX(20%) translateY(-50%);
-    }
+  from {
+    transform: translateX(-100%) translateY(-50%);
+  }
+  to {
+    transform: translateX(20%) translateY(-50%);
+  }
 }
 
 @keyframes contactFormTransition {
-    from{
-        transform: translateY(-100%);
-    }
-    to{
-        transform: translateY(0);
-    }
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes contactFormBtn {
-    from{
-        transform: translateY(-100vh);
-    }
-
-    to{
-        transform: translateY(0);
-    }   
+  from {
+    transform: translateY(-100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes contactFormInputs {
-    from{
-        transform: translateX(-100vw);
-    }
-    to{
-        transform: translateX(0);
-    }
-} 
+  from {
+    transform: translateX(-100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Media query for mobile responsiveness */
+@media screen and (max-width: 600px) {
+  .contactContainer {
+    flex-direction: column;
+  }
+  
+  .contactInfo, 
+  .contactContainerForm {
+    width: 100%;
+  }
+  
+  .contactInfo {
+    margin-bottom: 2vmax;
+  }
+}

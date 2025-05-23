@@ -3,29 +3,46 @@ import "./About.css"
 import { Typography } from '@mui/material'
 
 
-const About = () => {
+const About = ({about}) => {
+  // Log the about object to see what we're working with
+  console.log("About component received:", about);
+  
+  // Ensure about is an object
+  const safeAbout = about || {};
+  
+  // Create a safe reference to avatar
+  const avatarUrl = safeAbout.avatar && safeAbout.avatar.url 
+    ? safeAbout.avatar.url 
+    : "https://via.placeholder.com/300";
+  
   return (
     <div className='about'>
       <div className="aboutContainer">
-        <Typography>This is a sample </Typography>
+        <Typography>{safeAbout.quote || "This is a sample quote"}</Typography>
       </div>
       <div className="aboutContainer2">
            <div>
-            <img src="https://media.licdn.com/dms/image/D5603AQG1flIwEvdqvQ/profile-displayphoto-shrink_400_400/0/1710701878115?e=1728518400&v=beta&t=BPUpc34PAh8dVrWOylvW6JNRKKm9xYADBResiq7YN6o" 
-                 alt="kirti" 
-                 className='aboutAvatar'/>
+            <img 
+              src={avatarUrl} 
+              alt="profile" 
+              className='aboutAvatar'
+              onError={(e) => {
+                console.log("Image failed to load, using fallback");
+                e.target.src = "https://via.placeholder.com/300";
+              }}
+            />
             <Typography 
                variant='h4'
                style={{margin: "1vmax 0", color: "black"}}
             >
-              Kirti
+              {safeAbout.name || "Kirti"}
             </Typography>
 
-            <Typography>Softaware Developer</Typography>
+            <Typography>{safeAbout.title || "Software Developer"}</Typography>
             
             <Typography
                  style={{margin: "1vmax 0"}}>
-                  I am a freelancer for now.</Typography>
+                  {safeAbout.subtitle || "I am a freelancer for now."}</Typography>
            </div>
            <div>
               <Typography 
@@ -35,10 +52,7 @@ const About = () => {
                 letterSpacing: "5px",
                 textAlign: "right",
               }}>
-                Hola Gentle readers, this is me, Kirti.
-                Definintely an emotional fool
-                Someone who is smart and lazy at a same time, lol.
-                Hope you enjoy my site, adios amigo. XOXO
+                {safeAbout.description || "Hola Gentle readers, this is me, Kirti. Definintely an emotional fool Someone who is smart and lazy at a same time, lol. Hope you enjoy my site, adios amigo. XOXO"}
               </Typography>
            </div>
       </div>

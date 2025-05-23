@@ -2,6 +2,154 @@
     width: 100vw;
     height: 100vh;
     max-width: 100%;
+    filter: blur(5px);
+    position: absolute;
+
+}
+
+/* Modern minimalistic styling for the upper panel */
+.homeCanvasContainer {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    z-index: 2;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chic, modern name styling */
+.homeCanvasContainer > h1 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background-color: transparent;
+    padding: 2vmax 3vmax;
+    text-align: left;
+    transform: translate(0, -50%);
+    font: 700 4.5vmax "Josefin Sans", sans-serif;
+    letter-spacing: 3px;
+    color: white;
+    border-left: 4px solid hsl(102,63.1%,59.6%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.homeCanvasContainer > h1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    z-index: -1;
+}
+
+.homeCanvasContainer > h1 > p {
+    transition: all 0.4s ease;
+    color: white;
+    display: inline-block;
+    margin: 0 2px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.homeCanvasContainer > h1 > p:hover {
+    transform: translateY(-10px);
+    color: hsl(102,63.1%,59.6%);
+}
+
+.homeCanvasContainer > h1 > p::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: hsl(102,63.1%,59.6%);
+    transition: width 0.3s ease;
+}
+
+.homeCanvasContainer > h1 > p:hover::after {
+    width: 100%;
+}
+
+/* Clean, minimal role titles */
+.homeCanvasBox {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    text-align: right;
+    transform: translate(0, -50%);
+    padding: 2vmax;
+}
+
+.homeCanvasBox > h2 {
+    font: 300 3.5rem "Ubuntu Mono", monospace;
+    letter-spacing: 8px;
+    line-height: 5rem;
+    color: white;
+    transition: all 0.4s ease;
+    margin: 1rem 0;
+}
+
+.homeCanvasBox > h2:hover {
+    transform: translateX(-10px);
+    color: hsl(102,63.1%,59.6%);
+}
+
+/* Modern, minimal button */
+.homeCanvasContainer > a {
+    background-color: transparent;
+    color: white;
+    transition: all 0.4s ease;
+    font: 500 1rem "Ubuntu Mono", monospace;
+    text-decoration: none;
+    padding: 1vmax 3vmax;
+    box-sizing: border-box;
+    border: 1px solid white;
+    position: absolute;
+    left: 50%;
+    top: 65%;
+    transform: translateX(-50%);
+    letter-spacing: 2px;
+}
+
+.homeCanvasContainer > a:hover {
+    background-color: white;
+    color: #333;
+}
+
+/* Minimal scroll button */
+.homeScrollBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+    padding: 0.5vmax;
+    animation: scrollPop 0.8s ease-in-out infinite alternate;
+}
+
+.homeScrollBtn > svg {
+    font-size: 2vmax;
+    color: white;
+}
+
+@keyframes scrollPop {
+    from {
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        transform: translateX(-50%) translateY(-10px);
+    }
 }
 
 .homeContainer{
@@ -140,45 +288,53 @@
 
 
 .homeskillsBox {
-    background-color:hsl(102,63.1%,59.6%);
-    padding: 0 2vmax;
+    background-color: rgba(255, 255, 255, 0.12);
+    padding: 2rem;
     position: absolute;
     display: flex;
     flex-direction: column;
     right: 20px;
-    /* animation: homeSkillsBoxAnimationOn 1s linear forwards; */
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
     animation-duration: 1s;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 } 
 
-.homeskillsBox > svg{
-    font-size: 5vmax;
-    color: rgb(255, 255, 255);
+.homeskillsBox > svg {
+    font-size: 3.5vmax;
+    margin: 15px;
+    color: hsl(102,63.1%,59.6%);
     transition: all 0.5s;
-    margin: 10px;
+    cursor: pointer;
 }
 
-.homeskillsBox > svg:hover{
+.homeskillsBox > svg:hover {
     transform: scale(1.5);
+    color: white;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
 }
 
 @keyframes homeSkillsBoxAnimationOn {
-    from{
+    from {
         right: -300px;
+        opacity: 0;
     }
-
-    to{
+    to {
         right: 40px;
+        opacity: 1;
     }
 }
 
 @keyframes homeSkillsBoxAnimationOff {
-    from{
+    from {
         right: 40px;
+        opacity: 1;
     }
-
-    to{
+    to {
         right: -300px;
+        opacity: 0;
     }
 }

@@ -5,13 +5,15 @@ import {AiOutlineProject} from 'react-icons/ai';
 import { Delete } from '@mui/icons-material';
 import {FaRegSmileWink} from "react-icons/fa"
 
-const ProjectCard = ({
+export const ProjectCard = ({
   url,
   projectImage,
   projectTitle,
   description,
   technologies,
   isAdmin = false,
+  onDelete,
+  id,
 }) => {
   return(
     <>
@@ -22,39 +24,41 @@ const ProjectCard = ({
       </div>
 
       <div>
-        <Typography variant='h4'>About Projects</Typography>
+        <Typography variant='h4'>{projectTitle}</Typography>
         <Typography>{description}</Typography>
         <Typography variant='h6'>Tech Stack: {technologies}</Typography>
       </div>
      </a>
 
      {isAdmin && (
-      <Button style={{color: "rgba(40,40,40, 0.7)"}}>
+      <Button 
+        style={{color: "rgba(40,40,40, 0.7)"}}
+        onClick={onDelete}
+      >
         <Delete/>
       </Button>
-     )
-
-     }
-
+     )}
     </>
   )
 }
 
-const Projects = () => {
+const Projects = ({projects}) => {
 
-  const projects = [1, 2, 3];
   return (
     <div className='projects'>
       <Typography variant = 'h3'>Projects <AiOutlineProject/></Typography>
 
       <div className="projectsWrapper">
-        {projects.map((project,index) => (
+        {projects.map((item) => (
           <ProjectCard
-          url ="https://github.com/kirtibansal09"
-          projectImage = "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
-          projectTitle = "Sample Project"
-          description = "This is a Sample project dijgeiog drojgreio ujngioewruhrh ierngwn rgrnogtnf tr t gt r"
-          technologies = "MongoDb, React, NodeJs, Express"
+          id={item._id}
+          key={item._id}
+          url ={item.url}
+          projectImage = {item.image.url}
+          projectTitle = {item.title}
+          description = {item.description}
+          technologies = {item.techStack}
+          isAdmin = {false}
           />
         ))}
       </div>

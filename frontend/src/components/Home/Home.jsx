@@ -8,21 +8,33 @@ import spaceImage from "../../images/space.jpg"
 import TimeLine from '../TimeLine/TimeLine';
 import { Typography } from '@mui/material';
 import {
-    SiCplusplus,
-    SiReact,
+
     SiJavascript,
-    SiMongodb,
     SiNodedotjs,
     SiExpress,
     SiCss3,
     SiHtml5,
-    SiThreedotjs,
-  } from "react-icons/si";
-import YoutubeCard from '../YoutubeCard/YoutubeCard';
+    SiPython,
+    SiGit,
+    SiFigma,
+} from "react-icons/si";
 
 
 
-function Home() {
+import { Link } from 'react-router-dom';
+import { MouseOutlined } from '@mui/icons-material';
+
+function Home({ timelines, skills }) {
+    // Create a default placeholder image URL
+    const placeholderImage = "https://via.placeholder.com/300";
+
+    // Safely access skills with fallbacks
+    const getImageUrl = (imageObj) => {
+        if (imageObj && imageObj.url) {
+            return imageObj.url;
+        }
+        return placeholderImage;
+    };
 
     useEffect(() => {     //in useEffect we will write our threejs code so that it will et rendered only once
 
@@ -31,7 +43,7 @@ function Home() {
         const venusTexture = textureLoader.load(venusImage);
         const spacetexture = textureLoader.load(spaceImage);
 
-        
+
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
@@ -39,12 +51,12 @@ function Home() {
 
 
         const canvas = document.querySelector(".homeCanvas");
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true});
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
 
-        
-        
+
+
         renderer.outputEncoding = THREE.SRGBColorSpace;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = -0.5;
@@ -64,7 +76,7 @@ function Home() {
         const pointLight2 = new THREE.PointLight(0xffffff, 1);
         pointLight.position.set(8, 5, 5);
         pointLight2.position.set(-8, -5, -5)
-        
+
 
 
 
@@ -80,9 +92,9 @@ function Home() {
         scene.add(pointLight2);
         // scene.add(ambientLight); 
         scene.background = spacetexture
-        
 
-        const constSpeed = 0.01
+
+        const constSpeed = 0.03
         window.addEventListener("mousemove", (e) => {
             if (e.clientX <= window.innerWidth / 2) {
                 moon.rotation.x -= constSpeed;
@@ -117,7 +129,40 @@ function Home() {
             }
         })
 
+        // Add scroll event listener to rotate camera and planets
+        window.addEventListener("scroll", () => {
+            const scrollY = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollY / maxScroll;
+            const skillsBox = document.getElementById("homeskillsBox");
 
+            // Rotate camera based on scroll position
+            camera.rotation.y = scrollY * 0.003;
+
+            // Also rotate the planets slightly based on scroll
+            moon.rotation.y = 0.5 + scrollPercent * Math.PI;
+            venus.rotation.y = 0.5 + scrollPercent * Math.PI * 0.8;
+
+            // Move camera slightly backward as user scrolls down
+            camera.position.z = 8 + scrollPercent * 2;
+
+            // Add null check before accessing style property
+            if (skillsBox) {
+                if (window.scrollY > 1500) {
+                    skillsBox.style.animationName = "homeSkillsBoxAnimationOn";
+                }
+                else {
+                    skillsBox.style.animationName = "homeSkillsBoxAnimationOff";
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
 
         const animate = () => {   // recursion is used so that it can re render again and again 
@@ -132,69 +177,84 @@ function Home() {
 
         animate();
 
+        // Cleanup function to remove event listeners when component unmounts
+        return () => {
+            window.removeEventListener("mousemove", () => { });
+            window.removeEventListener("scroll", () => { });
+            window.removeEventListener("resize", () => { });
+        };
+
     }, [])
     return (
         <div className='Home'>
-
-
             <canvas className='homeCanvas'></canvas>
+            <div className="homeCanvasContainer">
+                <Typography variant='h1'>
+                    <p>K</p>
+                    <p>I</p>
+                    <p>R</p>
+                    <p>T</p>
+                    <p>I</p>
+                </Typography>
+
+                <div className='homeCanvasBox'>
+                    <Typography variant='h2'> DESIGNER </Typography>
+                    <Typography variant='h2'> DEVELOPER </Typography>
+                    <Typography variant='h2'> STUDENT </Typography>
+                    <Typography variant='h2'> FREELANCER </Typography>
+                </div>
+
+                <Link to="/projects">VIEW WORK</Link>
+            </div>
+
+            <div className="homeScrollBtn">
+                <MouseOutlined />
+            </div>
 
             <div className="homeContainer">
-                 <Typography variant='h3'>TIMELINE</Typography>
-                 <TimeLine timelines ={[1,2,3,4]}/>
+                <Typography variant='h3'>TIMELINE</Typography>
+                <TimeLine timelines={timelines || []} />
             </div>
 
             <div className="homeSkills">
-            <Typography variant='h3'>SKILLS</Typography>
-            <div className="homeCubeSkills">
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace1">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face1" />
+                <Typography variant='h3'>SKILLS</Typography>
+                <div className="homeCubeSkills">
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace1">
+                        <img src={getImageUrl(skills && skills.image1)} alt="Face1" />
+                    </div>
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace2">
+                        <img src={getImageUrl(skills && skills.image2)} alt="Face2" />
+                    </div>
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace3">
+                        <img src={getImageUrl(skills && skills.image3)} alt="Face3" />
+                    </div>
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace4">
+                        <img src={getImageUrl(skills && skills.image4)} alt="Face4" />
+                    </div>
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace5">
+                        <img src={getImageUrl(skills && skills.image5)} alt="Face5" />
+                    </div>
+                    <div className="homeCubeSkillsFaces homeCubeSkillsFace6">
+                        <img src={getImageUrl(skills && skills.image6)} alt="Face6" />
+                    </div>
                 </div>
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace2">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face2" />
-                </div>
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace3">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face3" />
-                </div>
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace4">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face4" />
-                </div>
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace5">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face5" />
-                </div>
-                <div className="homeCubeSkillsFaces homeCubeSkillsFace6">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBIgACEQEDEQH/xAAbAAEBAAIDAQAAAAAAAAAAAAAAAQQGAgMFB//EADMQAQACAQIEBAMHAwUAAAAAAAABAgMEEQUSITEGIkFRMmFxExSBkbHB8EKh0QcVM2Jy/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APhoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACygAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACggOVbzWNo/QHEAAAAAAAAAAF237Agpt8wIiZ9OkIvZAHKK80xEerisT7ggKCAAAAAAAAAACkxsCAAA79Jp76rU49PijfJktFag7uHcN1HEtRGDSUm9v6rTG0Vj3mW9cG8HcOwxE6rfV5v+1uXHE/KI6z+bM4bbTcK0uLQaXDExEc2XLPe8+/89GTg4tjw5ebPkjk3iI5a+YHVr64OHUjFo+GaWPS22GP1hganhfD82CMmbh+HH9rG28+W0WZuu45lx3vXSTSK367xvuxPu2q4jFc3LaZmdo3npP0B4mu8GWvi+14bm5p9MWTvb6S1PLjvhyWx5KzW9Z2msx1iX1nTaXU4Yw4tRa0xvty0jea+zyvH/hybaP/AHHFSIzY43ydNptT/MA+cCz36ICiAAAAAAqAAAA5TPSY9JncHFZmZ7oAAANl8F0xY8+r1uSP+LFyY99vit6x+H6tae/4fyR93yY9++SJn8gbdo8tKW5814579Zr3mGBmi85fPvaLT0nbaGDi1FpyWms7Tu9iurpbT5K2iZmNp5vmBXhubJFZw+eI8tonpMS2LhPBdXhxYZjPFa2iZvHpWWFwHPh0nJ5rXy5o3nfrs96M0THLXefLvPT+fIHRg4bl0l7zbNOSIny7TvEfz9mRxCttXpIreYtWvl/CXZj613jeYtXm/GHC0xEXp3jbafqD4fxnSzoeKajTTG3JfpHtE9f3YTZP9QK0r4n1HJH9Neb67NbAAAAAAAAAABYEAFlAAABm8M1H3fPv6TswlidusdwbNS1eaZrttPZ73D60+xvN7RHTp033+TUNLrYnHMWjedvyehg1teS072raO01noDYtFmnR2vasUm0x237MrFxuMd5plxd+3L7tXrquePhmbe+7Jw6jHe9NqxafimvNPf2B9T0l8WTQ0y1tHmjfaK+roz2x0y7ztGOJ80+0erWKcctiwU+GInbavo17xT4nyZdLfRYc0zbJHLk2nfavrH49voDWvEWvjifHNZrKfBkyTyf+Y6R/aIeas9/dAFQAAAAAAAAAABRAAAFQAWszE9JZOPUx0i8bfOGKoPW0+rxUmLRkiJj3hkTxHSYomaxE2t3mHgoD0dRxXLk8uOZpEdN/V59pm07zO8oAvogAAAAAAAAAAAAAqAAAALsgKIAAACwSCAAAAAAAAAAAAAAAAAoG/l22jv3QAAAAAAAAAAAAAVAAAAWO/VAFlAAAAAAAAAAAAAAAAAAc+byzXav126uAC+iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z" alt="Face6" />
-                </div>
-            </div>
 
-            <div className="cubeShadow"></div>
-            <div className="homeskillsBox">
-            <SiCplusplus />
-          <SiHtml5 />
-          <SiCss3 />
-          <SiJavascript />
-          <SiMongodb />
-          <SiExpress />
-          <SiReact />
-          <SiNodedotjs />
-          <SiThreedotjs />
-            </div>
-            </div>
+                <div className="cubeShadow"></div>
+                <div className="homeskillsBox" id="homeskillsBox">
 
-            <div className="homeYoutube">
-                <Typography variant='h3'>YOUTUBE VIDEOS</Typography>
-                <div className="homeYoutubeWrapper">
-                    <YoutubeCard image="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" title='Sample video'/>
-                    <YoutubeCard image="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" title='Sample video'/>
-                    <YoutubeCard image="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" title='Sample video'/>
-                    <YoutubeCard image="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" title='Sample video'/>
+                    <SiJavascript data-tooltip="JavaScript" />
+
+                    <SiNodedotjs data-tooltip="Node.js" />
+                    <SiExpress data-tooltip="Express" />
+                    <SiCss3 data-tooltip="CSS3" />
+                    <SiHtml5 data-tooltip="HTML5" />
+                    <SiPython data-tooltip="Python" />
+                    <SiGit data-tooltip="Git" />
+                    <SiFigma data-tooltip="Figma" />
                 </div>
             </div>
-              
         </div>
     )
 }
-
-
 
 export default Home

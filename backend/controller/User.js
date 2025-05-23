@@ -25,7 +25,7 @@ export const login = async(req, res) => {
             httpOnly: true,
         }).json({
             success: true,
-            messsage: "Logged In Successfully"
+            message: "Logged In Successfully"
         })
     }
     catch (error) 
@@ -130,7 +130,7 @@ export const updateUser = async(req, res)=>{
         }
         if(skills){
             if(skills.image1){
-                await cloudinary.v2.uploader.destroy(user.skills.image1.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image1.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image1,{
                     folder: "portfolio",
                 })
@@ -142,7 +142,7 @@ export const updateUser = async(req, res)=>{
             }
 
             if(skills.image2){
-                await cloudinary.v2.uploader.destroy(user.skills.image2.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image2.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image2,{
                     folder: "portfolio",
                 })
@@ -154,7 +154,7 @@ export const updateUser = async(req, res)=>{
             }
 
             if(skills.image3){
-                await cloudinary.v2.uploader.destroy(user.skills.image3.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image3.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image3,{
                     folder: "portfolio",
                 })
@@ -166,7 +166,7 @@ export const updateUser = async(req, res)=>{
             }
 
             if(skills.image4){
-                await cloudinary.v2.uploader.destroy(user.skills.image4.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image4.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image4,{
                     folder: "portfolio",
                 })
@@ -178,7 +178,7 @@ export const updateUser = async(req, res)=>{
             }
 
             if(skills.image5){
-                await cloudinary.v2.uploader.destroy(user.skills.image5.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image5.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image5,{
                     folder: "portfolio",
                 })
@@ -190,7 +190,7 @@ export const updateUser = async(req, res)=>{
             }
 
             if(skills.image6){
-                await cloudinary.v2.uploader.destroy(user.skills.image6.public_id);
+                // await cloudinary.v2.uploader.destroy(user.skills.image6.public_id);
                 const myCloud = await cloudinary.v2.uploader.upload(skills.image6,{
                     folder: "portfolio",
                 })
@@ -203,6 +203,9 @@ export const updateUser = async(req, res)=>{
         }
 
         if(about){
+            if (!user.about) {
+                user.about = {};
+            }
             if (about.name) {
                 user.about.name = about.name;
               }
@@ -221,8 +224,8 @@ export const updateUser = async(req, res)=>{
               }
 
             if(about.avatar){
-                await cloudinary.v2.uploader.destroy(user.about.avatar.public_id);
-                const myCloud = await cloudinary.v2.uploader(about.avatar, {
+                //await cloudinary.v2.uploader.destroy(user.about.avatar.public_id);
+                const myCloud = await cloudinary.v2.uploader.upload(about.avatar, {
                     folder:"portfolio",
                 });
                 user.about.avatar ={
@@ -231,6 +234,7 @@ export const updateUser = async(req, res)=>{
                 }
             }
         }
+        console.log("User object before save:", user);
 
         await user.save();
 
@@ -339,25 +343,46 @@ export const addProject = async(req, res)=>{
     }
 }
 
-export const deleteTimeline = async(req, res)=>{
-    try {
-        const {id} = req.params;
-        const user = await User.findById(req.user._id); 
-
-        user.timeline= user.timeline.filter((item)=>item._id !== id)
-
-        await user.save();
-
-        res.status(200).json({
-            success:true,
-            message: "Deleted from timeline"
-        })
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            message: error.message,
-        });
+export const deleteTimeline = async(req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Backend received delete request for timeline ID:", id);
+    
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
+
+    // Check if the timeline item exists before filtering
+    const timelineItem = user.timeline.find(item => item._id.toString() === id);
+    if (!timelineItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Timeline item not found",
+      });
+    }
+
+    // Filter out the timeline item with the matching ID
+    user.timeline = user.timeline.filter(item => item._id.toString() !== id);
+    
+    await user.save();
+    
+    console.log("Timeline item deleted successfully");
+    
+    res.status(200).json({
+      success: true,
+      message: "Deleted from timeline"
+    });
+  } catch (error) {
+    console.error("Error in deleteTimeline:", error);
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
 
 export const deleteYoutube = async(req, res)=>{
@@ -389,18 +414,32 @@ export const deleteProject= async(req, res)=>{
         const {id} = req.params;
         const user = await User.findById(req.user._id); 
 
-        const project= user.projects.filter((item)=>item._id !== id);
-        await cloudinary.v2.uploader.destroy(project.image.public_id);
+        // Find the project to delete first
+        const project = user.projects.find((item) => item._id.toString() === id);
+        
+        if (!project) {
+            return res.status(404).json({
+                success: false,
+                message: "Project not found"
+            });
+        }
+        
+        // Delete image from cloudinary if it exists
+        if (project.image && project.image.public_id) {
+            await cloudinary.v2.uploader.destroy(project.image.public_id);
+        }
 
-        user.projects= user.projects.filter((video)=>video._id !== id);
+        // Filter out the project with the matching ID
+        user.projects = user.projects.filter((item) => item._id.toString() !== id);
 
         await user.save();
 
         res.status(200).json({
-            success:true,
+            success: true,
             message: "Deleted from Projects"
-        })
+        });
     } catch (error) {
+        console.error("Error in deleteProject:", error);
         return res.status(400).json({
             success: false,
             message: error.message,

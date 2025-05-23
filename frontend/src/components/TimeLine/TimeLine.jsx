@@ -21,7 +21,7 @@ function TimeLine({timelines = []}) {
                 variant='body2'
                 color='text.secondary'
                 >
-                    05/07/2024
+                   {item.date.toString().split("T")[0]}
                 </TimelineOppositeContent>
 
                 <TimelineSeparator>
@@ -33,8 +33,8 @@ function TimeLine({timelines = []}) {
                 </TimelineSeparator>
 
                 <TimelineContent sx={{py: '12px', px: 2}}>
-                    <Typography variant = "h6" >Title</Typography>
-                    <Typography>Description</Typography>
+                    <Typography variant = "h6" >{item.title}</Typography>
+                    <Typography>{item.description}</Typography>
                 </TimelineContent>
             </TimelineItem>
         ))

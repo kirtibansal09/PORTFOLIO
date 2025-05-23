@@ -1,0 +1,263 @@
+.adminPanel{
+    width: 100%;
+    min-height: 100vh;
+    background-color: hsl(219, 48%, 8%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminPanelContainer{
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.adminPanelContainer > h4 {
+    margin: 2vmax;
+    letter-spacing: 15px;
+    display: flex;
+    transform: translateX(-100vw);
+    animation: contactFormInputs 1s ease-in-out forwards;
+    justify-content: center;
+}
+
+.adminPanelContainer > h4 > p {
+    transition: all 0.5s;
+}
+
+.adminPanelContainer > h4 > p:hover {
+  transform: translateY(-10px);
+}
+
+.adminPanelContainer > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4vmax;
+    align-items: center;
+    padding-top: 0;
+}
+
+.adminPanelInputs{
+    width: 50%;
+    padding: 1vmax 2vmax;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    font: 100 1rem "Roboto", sans-serif;
+    outline: none;
+    margin: 2vmax;
+    box-sizing: border-box;
+}
+
+.adminPanelSkill{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adminPanelSkill > div {
+    display: flex;
+    align-items: center;
+    margin: 2vmax;
+}
+
+.adminPanelSkill > div > p {
+    font: 400 1.5rem "Roboto", sans-serif;
+    margin-right: 2vmax;
+    color: rgba(24,24,24,0.815);
+}
+
+.adminPanelFileUpload::-webkit-file-upload-button{
+    width: 100%;
+    border-radius:30px ;
+    cursor: pointer;
+    border: none;
+    font: 100 1rem "Roboto", sans-serif;
+    background-color: hsl(102,63.1%,59.6%);
+    padding: 1vmax;
+    color: white;
+} 
+
+.adminPanelAbout > fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid rgb(0,0,0);
+    margin: 2vmax 0;
+    padding-bottom: 3vmax;
+      
+}
+
+.adminPanelAbout{
+    width: 100%;
+}
+
+.adminPanelAbout > fieldset > legend{
+    margin: 2vmax;
+    font: 400 2rem "Roboto";
+}
+
+.adminPanelContainer > form > a {
+    background-color: #fafafa;
+    padding: 2vmax;
+    font: 400 2rem "Roboto", sans-serif;
+    color: rgb(44,44,44);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    margin: 2vmax;
+    transition: all 0.5s;
+}
+
+.adminPanelContainer > form > a:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.212);
+    transform: scale(1.1);
+}
+
+.adminPanelContainer > form > button {
+    width: 50%;
+    padding: 1vmax;
+    margin: 2vmax ;
+    background-color: hsl(219, 48%, 8%);
+}
+
+.adminPanelContainer > form > button:hover{
+    background-color: hsl(221, 46%, 20%);
+}
+
+/* Timeline styles */
+.timelineContainer {
+  margin: 2vmax auto;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.timelineItem {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: all 0.3s ease;
+  border-top: 4px solid #3f51b5;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.timelineTitle {
+  color: #333;
+  margin-bottom: 0.8rem !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+}
+
+.timelineDescription {
+  letter-spacing: 1px;
+  color: #555;
+  margin-bottom: 0.8rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  flex-grow: 1;
+}
+
+.timelineDate {
+  font-weight: 600 !important;
+  color: #777;
+  margin-bottom: 0.5rem !important;
+}
+
+.deleteButton {
+  margin: 0 auto !important;
+  display: block !important;
+  color: rgba(40, 40, 40, 0.7) !important;
+  transition: color 0.3s ease !important;
+}
+
+.deleteButton:hover {
+  color: #d32f2f !important;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .timelineContainer {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .timelineContainer {
+    grid-template-columns: 1fr;
+    width: 95%;
+  }
+}
+
+/* Project container for admin panel */
+.projectContainer {
+  margin: 2vmax auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Remove any custom styling for .adminPanel .projectCard */
+/* Let the original Projects.css styling handle the cards */
+
+.deleteButton {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 50% !important;
+  padding: 8px !important;
+  z-index: 10 !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s !important;
+}
+
+.deleteButton:hover {
+  background-color: rgba(255, 255, 255, 1) !important;
+  transform: scale(1.1) !important;
+  color: #d32f2f !important;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .projectContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .adminPanel .projectCard {
+    flex-direction: column;
+  }
+  
+  .adminPanel .projectCard > div:first-child,
+  .adminPanel .projectCard > div:last-child {
+    width: 100%;
+  }
+  
+  .adminPanel .projectCard > div:first-child {
+    height: 200px;
+  }
+  
+  .adminPanel .projectCard > div:last-child {
+    padding: 1.5vmax;
+  }
+}

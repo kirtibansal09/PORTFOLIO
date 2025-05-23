@@ -54,11 +54,12 @@
     align-items: center;
 }
 
-.aboutAvatar{
-       width: 300px;
-       height: 300px;
-       border-radius: 100%;
-       transition: all 1s;
+.aboutAvatar {
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    transition: all 1s;
+    object-fit: cover; /* This ensures the image maintains its aspect ratio */
 }
 
 .aboutAvatar:hover{

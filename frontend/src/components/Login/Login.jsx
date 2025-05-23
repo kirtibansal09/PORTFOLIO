@@ -3,7 +3,8 @@ import "./Login.css"
 import { Button, Typography } from '@mui/material'
 import {useDispatch, useSelector} from "react-redux";
 import { login } from '../../actions/user';
-import {useAlert} from "react-alert"
+import { toast } from 'react-toastify';  // Importing toast from react-toastify
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -11,7 +12,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
 
     const dispatch = useDispatch();
-    const alert = useAlert();
+
     const {loading,message,error} = useSelector((state) => state.login)
 
     const submitHandler = (e) => {
@@ -20,15 +21,18 @@ const Login = () => {
     }
 
     useEffect(() =>{
+        console.log("Error:", error);
+        console.log("Message:", message);
+
         if(error){
-            alert.error(error);
+            toast.error(error); 
             dispatch({type: "CLEAR_ERRORS"});
         }
         if(message){
-            alert.success(message);
+            toast.success(message);
             dispatch({type: "CLEAR_MESSAGE"});
         }
-    }, [alert, error, message, dispatch])
+    }, [error, message, dispatch])
     return (
         <div className='login'>
             <div className="loginContainer">
