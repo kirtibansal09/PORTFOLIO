@@ -21,14 +21,16 @@
 # frontend testing
 /frontend/coverage
 
-# frontend misc
+/frontend/# production
+/frontend/build
+
+/frontend/# misc
 /frontend/.DS_Store
 /frontend/.env.local
 /frontend/.env.development.local
 /frontend/.env.test.local
 /frontend/.env.production.local
 
-# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
