@@ -118,11 +118,30 @@
     top: 65%;
     transform: translateX(-50%);
     letter-spacing: 2px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.homeCanvasContainer > a:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.6s;
+    z-index: -1;
+}
+
+.homeCanvasContainer > a:hover:before {
+    left: 100%;
 }
 
 .homeCanvasContainer > a:hover {
     background-color: white;
     color: #333;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
 }
 
 /* Minimal scroll button */
@@ -301,20 +320,124 @@
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
     border: 1px solid rgba(255, 255, 255, 0.2);
-} 
+}
 
-.homeskillsBox > svg {
-    font-size: 3.5vmax;
+.skillIcon {
+    position: relative;
+    display: inline-block;
     margin: 15px;
+}
+
+.skillIcon > svg {
+    font-size: 3.5vmax;
     color: hsl(102,63.1%,59.6%);
     transition: all 0.5s;
     cursor: pointer;
 }
 
-.homeskillsBox > svg:hover {
+.skillIcon > svg:hover {
     transform: scale(1.5);
     color: white;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+}
+
+.skillTooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.95));
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    font-family: 'Ubuntu Mono', monospace;
+    letter-spacing: 1px;
+    z-index: 100;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.skillTooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.9) transparent;
+    filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.skillIcon:hover .skillTooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: -45px;
+    transform: translateX(-50%) scale(1.05);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Add a subtle glow effect to the tooltip text */
+@keyframes tooltipGlow {
+    0%, 100% {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 
+                    0 0 15px hsl(102,63.1%,59.6%, 0.3);
+    }
+}
+
+.skillIcon:hover .skillTooltip {
+    animation: tooltipGlow 2s infinite;
+}
+
+/* Add a subtle border glow effect */
+@keyframes borderGlow {
+    0%, 100% {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        border-color: rgba(hsl(102,63.1%,59.6%), 0.3);
+    }
+}
+
+.skillIcon:hover .skillTooltip {
+    animation: tooltipGlow 2s infinite, borderGlow 2s infinite alternate;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .homeskillsBox {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+    
+    .skillIcon {
+        margin: 10px;
+    }
+    
+    .skillIcon > svg {
+        font-size: 2.5vmax;
+    }
+    
+    .skillTooltip {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
 }
 
 @keyframes homeSkillsBoxAnimationOn {
@@ -336,5 +459,216 @@
     to {
         right: -300px;
         opacity: 0;
+    }
+}
+
+/* Responsive improvements for Home component */
+@media screen and (max-width: 1100px) {
+    .homeCanvasContainer > h1 {
+        font-size: 4vmax;
+        padding: 1.5vmax 2vmax;
+    }
+    
+    .homeCanvasBox {
+        padding: 1.5vmax;
+    }
+    
+    .homeCanvasBox > h2 {
+        font-size: 2.8rem;
+        line-height: 4rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .homeCanvasContainer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .homeCanvasContainer > h1 {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        width: 80%;
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1.5vmax;
+        border-left: none;
+        border-bottom: 4px solid hsl(102,63.1%,59.6%);
+    }
+    
+    .homeCanvasBox {
+        position: relative;
+        top: 0;
+        right: 0;
+        transform: none;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .homeCanvasBox > h2 {
+        font-size: 2.2rem;
+        line-height: 3.2rem;
+        letter-spacing: 5px;
+    }
+    
+    .homeCanvasBox > h2:hover {
+        transform: translateY(-5px);
+        transform: translateX(0);
+    }
+    
+    .homeCanvasContainer > a {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-top: 1rem;
+    }
+    
+    .homeScrollBtn {
+        bottom: 2%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .homeCanvasContainer > h1 {
+        font-size: 3.5vmax;
+        padding: 1vmax;
+        width: 90%;
+    }
+    
+    .homeCanvasBox > h2 {
+        font-size: 1.8rem;
+        line-height: 2.8rem;
+        letter-spacing: 3px;
+    }
+    
+    .homeContainer > h3 {
+        padding: 2vmax;
+        font-size: 6vw;
+    }
+    
+    .homeSkills {
+        padding: 100px 10px;
+        height: unset;
+        min-height: 1000px;
+    }
+    
+    .homeCubeSkills {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .homeCubeSkillsFace1,
+    .homeCubeSkillsFace2,
+    .homeCubeSkillsFace3,
+    .homeCubeSkillsFace4,
+    .homeCubeSkillsFace5,
+    .homeCubeSkillsFace6 {
+        transform-origin: center;
+    }
+    
+    .homeCubeSkillsFace1 {
+        transform: translate3d(0, 0, 75px);
+    }
+    
+    .homeCubeSkillsFace2 {
+        transform: rotateY(180deg) translate3d(0, 0, 75px);
+    }
+    
+    .homeCubeSkillsFace3 {
+        transform: rotateY(-90deg) translate3d(0, 0, 75px);
+    }
+    
+    .homeCubeSkillsFace4 {
+        transform: rotateY(90deg) translate3d(0, 0, 75px);
+    }
+    
+    .homeCubeSkillsFace5 {
+        transform: rotateX(90deg) translate3d(0, 0, 75px);
+    }
+    
+    .homeCubeSkillsFace6 {
+        transform: rotateX(-90deg) translate3d(0, 0, 75px);
+    }
+    
+    .cubeShadow {
+        width: 150px;
+    }
+    
+    .homeskillsBox {
+        right: 0;
+        left: 0;
+        margin: auto;
+        top: 50%;
+        width: 80%;
+        height: fit-content;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .homeskillsBox > svg {
+        font-size: 2.5vmax;
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .homeCanvasContainer > h1 {
+        font-size: 3vmax;
+        border-bottom: 3px solid hsl(102,63.1%,59.6%);
+    }
+    
+    .homeCanvasBox > h2 {
+        font-size: 1.5rem;
+        line-height: 2.3rem;
+        letter-spacing: 2px;
+    }
+    
+    .homeCanvasContainer > a {
+        padding: 0.8vmax 2vmax;
+        font-size: 0.9rem;
+    }
+    
+    .homeCubeSkills {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .homeCubeSkillsFace1 {
+        transform: translate3d(0, 0, 60px);
+    }
+    
+    .homeCubeSkillsFace2 {
+        transform: rotateY(180deg) translate3d(0, 0, 60px);
+    }
+    
+    .homeCubeSkillsFace3 {
+        transform: rotateY(-90deg) translate3d(0, 0, 60px);
+    }
+    
+    .homeCubeSkillsFace4 {
+        transform: rotateY(90deg) translate3d(0, 0, 60px);
+    }
+    
+    .homeCubeSkillsFace5 {
+        transform: rotateX(90deg) translate3d(0, 0, 60px);
+    }
+    
+    .homeCubeSkillsFace6 {
+        transform: rotateX(-90deg) translate3d(0, 0, 60px);
+    }
+    
+    .cubeShadow {
+        width: 120px;
+    }
+    
+    .homeskillsBox > svg {
+        font-size: 2.2vmax;
+        margin: 8px;
     }
 }

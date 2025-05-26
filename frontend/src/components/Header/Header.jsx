@@ -16,7 +16,7 @@ function Header() {
     link1Text = "Home"
     link2Text = "About"
     link3Text = "Projects"
-    link4Text = "Contacts"
+    link4Text = "Contact"  
     link1Url = "/"
     link2Url = "about"
     link3Url = "projects"

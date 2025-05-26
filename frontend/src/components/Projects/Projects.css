@@ -41,10 +41,40 @@
     text-decoration: none;
     color: rgba(0, 0, 0, 0.712);
     margin: 2vmax;
-    border-radius: 10px;
+    border-radius: 16px;
     display: flex;
     transform: translateX(-100vw);
     animation: projectCardAnimation 1s ease-in-out forwards 0.5s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s ease;
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.projectCard:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12), 0 0 15px rgba(72, 85, 99, 0.2);
+    transform: translateY(-8px) scale(1.01);
+}
+
+.projectCard::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff3366, #6633ff, #3366ff, #33ff66);
+    z-index: -1;
+    border-radius: 18px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.projectCard:hover::before {
+    opacity: 1;
+    animation: borderGlow 2s linear infinite;
 }
 
 .projectCard:nth-child(even){
@@ -64,49 +94,89 @@
     justify-content: space-around;
 }
 
+.projectCard > div:first-child {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.projectCard > div:first-child > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed from cover to contain */
+    transition: transform 0.8s ease;
+}
+
+.projectCard:hover > div:first-child > img {
+    transform: scale(1.05);
+}
+
 .projectCard > div:first-child::after{
      content: "VIEW DEMO";
      width: 100%;
      height: 100%;
-     font: 100 2rem "Roboto";
+     font: 500 1.5rem "Roboto";
      align-items: center;
      justify-content: center;
-     display: flex ;
-     background-color: hsl(102,63.1%,59.6%);
+     display: flex;
+     background: linear-gradient(135deg, rgba(102, 51, 255, 0.85), rgba(51, 102, 255, 0.85));
      color: white;
+     opacity: 0;
+     transition: all 0.5s ease;
+     position: absolute;
+     top: 0;
+     left: 0;
+     letter-spacing: 1px;
 }
 
-.projectCard > div:first-child > h5{
-    text-align: center;
-    padding: 2vmax;
+.projectCard:hover > div:first-child::after{
+     opacity: 1;
+     animation: pulseText 1.5s ease-in-out infinite;
 }
 
 .projectCard > div:last-child {
-    padding: 3vmax;
+    padding: 2.5vmax;
 }
 
 .projectCard > div:last-child > h4 {
     text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1vmax;
+    color: #333;
+    transition: all 0.3s ease;
 }
 
-.projectCard > div:last-child > p{
-    letter-spacing: 5px;
+.projectCard:hover > div:last-child > h4 {
+    color: #6633ff;
+    transform: scale(1.05);
+}
+
+.projectCard > div:last-child > p {
+    letter-spacing: 2px;
     word-spacing: 5px;
     text-align: right;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1vmax;
 }
 
-.projectCard > div:last-child > h6{
+.projectCard > div:last-child > h6 {
     font-family: "Ubuntu Mono";
     font-weight: bold;
-    color: black;
+    color: #333;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.8vmax 1.2vmax;
+    border-radius: 50px;
+    display: inline-block;
+    transition: all 0.3s ease;
 }
 
-.projectCard > div > img{
-    width: inherit;
-}
-
-.projectCard:hover div:first-child{
-    filter: hue-rotate(240deg) blur(4px);
+.projectCard:hover > div:last-child > h6 {
+    background-color: rgba(102, 51, 255, 0.1);
+    color: #6633ff;
+    box-shadow: 0 5px 15px rgba(102, 51, 255, 0.2);
 }
 
 
@@ -119,6 +189,30 @@
 @keyframes projectHeadingAnimation {
     to{
         transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes borderGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulseText {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
     }
 }
 

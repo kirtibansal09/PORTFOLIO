@@ -148,7 +148,10 @@ function Home({ timelines, skills }) {
 
             // Add null check before accessing style property
             if (skillsBox) {
-                if (window.scrollY > 1500) {
+                // Adjust animation trigger point based on screen size
+                const triggerPoint = window.innerWidth <= 600 ? 800 : 1500;
+                
+                if (window.scrollY > triggerPoint) {
                     skillsBox.style.animationName = "homeSkillsBoxAnimationOn";
                 }
                 else {
@@ -241,16 +244,38 @@ function Home({ timelines, skills }) {
 
                 <div className="cubeShadow"></div>
                 <div className="homeskillsBox" id="homeskillsBox">
-
-                    <SiJavascript data-tooltip="JavaScript" />
-
-                    <SiNodedotjs data-tooltip="Node.js" />
-                    <SiExpress data-tooltip="Express" />
-                    <SiCss3 data-tooltip="CSS3" />
-                    <SiHtml5 data-tooltip="HTML5" />
-                    <SiPython data-tooltip="Python" />
-                    <SiGit data-tooltip="Git" />
-                    <SiFigma data-tooltip="Figma" />
+                    <div className="skillIcon">
+                        <SiJavascript />
+                        <span className="skillTooltip">JavaScript</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiNodedotjs />
+                        <span className="skillTooltip">Node.js</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiExpress />
+                        <span className="skillTooltip">Express</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiCss3 />
+                        <span className="skillTooltip">CSS3</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiHtml5 />
+                        <span className="skillTooltip">HTML5</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiPython />
+                        <span className="skillTooltip">Python</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiGit />
+                        <span className="skillTooltip">Git</span>
+                    </div>
+                    <div className="skillIcon">
+                        <SiFigma />
+                        <span className="skillTooltip">Figma</span>
+                    </div>
                 </div>
             </div>
         </div>
