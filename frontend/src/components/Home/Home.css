@@ -265,32 +265,7 @@
     filter: blur(3px);
 }   
 
-.homeYoutube{
-    background-color: white;
-    padding-top: 4vmax;
-    transform: translateY(-200px);
-    border-radius: 20% 20% 0 0;
-    position: relative;
-    margin-bottom: -200px;
-    box-sizing: border-box;
-    min-height: 1000px;
-}
 
-.homeYoutubeWrapper{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 2vmax;
-    width: 80%;
-    margin: auto;
-    /* border: 1px solid hsl(250, 100%, 75%); */
-}
-
-.homeYoutube > h3{
-    text-align: center;
-    color: rgba(22, 20, 20, 0.904);
-    padding: 4vmax;
-}
 @keyframes cubeRotation {
     to{
         transform: rotateY(360deg) rotateX(480deg) rotateZ(720deg);
@@ -306,20 +281,98 @@
 
 
 
+/* --- Dual Skills Boxes Layout --- */
+.homeSkillsContent {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10rem;
+  margin-top: 2.5rem;
+  flex-wrap: nowrap;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.skillsCol {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cubeCol {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .homeskillsBox {
-    background-color: rgba(255, 255, 255, 0.12);
-    padding: 2rem;
-    position: absolute;
-    display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 320px;
+  max-width: 90vw;
+  background-color: rgba(255, 255, 255, 0.12);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 1.5rem;
+  z-index: 2;
+}
+
+.skillsBoxTitle {
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: 700;
+  font-family: 'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(90deg, #b6ffb0 0%, #5fffd2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  margin-bottom: 1.1rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 12px rgba(80,255,180,0.18);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: skillsTitleFadeIn 1s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
+}
+
+@keyframes skillsTitleFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .skillsBoxTitle {
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .homeSkillsContent {
     flex-direction: column;
-    right: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .skillsCol, .cubeCol {
+    width: 100%;
+    align-items: center;
+  }
+  .homeskillsBox {
+    width: 90vw;
+    max-width: 95vw;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .skillIcon {
@@ -437,17 +490,6 @@
     .skillTooltip {
         font-size: 12px;
         padding: 4px 8px;
-    }
-}
-
-@keyframes homeSkillsBoxAnimationOn {
-    from {
-        right: -300px;
-        opacity: 0;
-    }
-    to {
-        right: 40px;
-        opacity: 1;
     }
 }
 
@@ -671,4 +713,31 @@
         font-size: 2.2vmax;
         margin: 8px;
     }
+}
+
+@media (max-width: 700px) {
+  .homeSkillsContent {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.2rem;
+  }
+  .homeskillsBox {
+    width: 90vw;
+    max-width: 90vw;
+    padding: 1.1rem 0.5rem 0.5rem 0.5rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .skillIcon {
+    margin: 8px 6px 18px 6px;
+  }
+  .skillIcon > svg {
+    font-size: 1.7rem;
+  }
+  .cubeCol {
+    margin: 0.5rem 0 0.5rem 0;
+  }
 }

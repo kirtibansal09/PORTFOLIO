@@ -26,8 +26,16 @@ export const ProjectCard = ({
       <div>
         <Typography variant='h4'>{projectTitle}</Typography>
         <Typography>{description}</Typography>
-        <Typography variant='h6'>Tech Stack: {technologies}</Typography>
+        <Typography variant='h6' className="techStack">
+          {(Array.isArray(technologies) 
+            ? technologies 
+            : (technologies || "").split(',')
+          ).map((tech, idx) => (
+            <span className="techChip" key={idx}>{tech.trim()}</span>
+          ))}
+        </Typography>
       </div>
+   
      </a>
 
      {isAdmin && (

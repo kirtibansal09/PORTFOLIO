@@ -8,7 +8,6 @@ import spaceImage from "../../images/space.jpg"
 import TimeLine from '../TimeLine/TimeLine';
 import { Typography } from '@mui/material';
 import {
-
     SiJavascript,
     SiNodedotjs,
     SiExpress,
@@ -17,8 +16,19 @@ import {
     SiPython,
     SiGit,
     SiFigma,
+    SiMongodb,
+    SiReact,
+    SiTypescript,
+    SiTailwindcss,
+    SiCloudinary,
+    SiNextdotjs,
+
+    SiYoutube,
+    SiMysql,
+
 } from "react-icons/si";
 
+import { DiVisualstudio } from "react-icons/di";
 
 
 import { Link } from 'react-router-dom';
@@ -221,62 +231,65 @@ function Home({ timelines, skills }) {
 
             <div className="homeSkills">
                 <Typography variant='h3'>SKILLS</Typography>
-                <div className="homeCubeSkills">
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace1">
-                        <img src={getImageUrl(skills && skills.image1)} alt="Face1" />
+                <div className="homeSkillsContent">
+                  <div className="skillsCol">
+                    <h3 className="skillsBoxTitle">Technologies Known</h3>
+                    <div className="homeskillsBox" id="homeskillsBox">
+                      <div className="skillIcon"><SiJavascript /><span className="skillTooltip">JavaScript</span></div>
+                      <div className="skillIcon"><SiNodedotjs /><span className="skillTooltip">Node.js</span></div>
+                      <div className="skillIcon"><SiExpress /><span className="skillTooltip">Express</span></div>
+                      <div className="skillIcon"><SiCss3 /><span className="skillTooltip">CSS3</span></div>
+                      <div className="skillIcon"><SiHtml5 /><span className="skillTooltip">HTML5</span></div>
+                      <div className="skillIcon"><SiMysql /><span className="skillTooltip">MySQL</span></div>
+                      <div className="skillIcon"><SiMongodb /><span className="skillTooltip">MongoDB</span></div>
+                      <div className="skillIcon"><SiReact /><span className="skillTooltip">React.js</span></div>
+                      <div className="skillIcon"><SiTypescript /><span className="skillTooltip">TypeScript</span></div>
+                      <div className="skillIcon"><SiTailwindcss /><span className="skillTooltip">Tailwind CSS</span></div>
+                      <div className="skillIcon"><SiNextdotjs /><span className="skillTooltip">Next.js</span></div>
+                      <div className="skillIcon"><SiPython /><span className="skillTooltip">Python</span></div>
+                      
                     </div>
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace2">
-                        <img src={getImageUrl(skills && skills.image2)} alt="Face2" />
+                  </div>
+                  <div className="cubeCol">
+                    <div className="homeCubeSkills">
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace1">
+                            <img src={getImageUrl(skills && skills.image1)} alt="Face1" />
+                        </div>
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace2">
+                            <img src={getImageUrl(skills && skills.image2)} alt="Face2" />
+                        </div>
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace3">
+                            <img src={getImageUrl(skills && skills.image3)} alt="Face3" />
+                        </div>
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace4">
+                            <img src={getImageUrl(skills && skills.image4)} alt="Face4" />
+                        </div>
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace5">
+                            <img src={getImageUrl(skills && skills.image5)} alt="Face5" />
+                        </div>
+                        <div className="homeCubeSkillsFaces homeCubeSkillsFace6">
+                            <img src={getImageUrl(skills && skills.image6)} alt="Face6" />
+                        </div>
                     </div>
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace3">
-                        <img src={getImageUrl(skills && skills.image3)} alt="Face3" />
+                  </div>
+                  <div className="skillsCol">
+                    <h3 className="skillsBoxTitle">Tools & Platforms</h3>
+                    <div className="homeskillsBox" id="homeskillsBox2">
+                    <div className="skillIcon"><SiGit /><span className="skillTooltip">Git</span></div>
+                    <div className="skillIcon"><SiFigma /><span className="skillTooltip">Figma</span></div>
+                    <div className="skillIcon"><DiVisualstudio /><span className="skillTooltip">VS Code</span></div>
+                      <div className="skillIcon"><SiCloudinary /><span className="skillTooltip">Cloudinary</span></div>
+                    
+                      <div className="skillIcon"><SiYoutube /><span className="skillTooltip">YouTube API</span></div>
+                      {/* <div className="skillIcon"><span className="skillTooltip">Java Swing</span></div>
+                      <div className="skillIcon"><span className="skillTooltip">Java</span></div>
+                      <div className="skillIcon"><span className="skillTooltip">Java AWT</span></div>
+                      <div className="skillIcon"><span className="skillTooltip">InnerTube API</span></div> */}
                     </div>
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace4">
-                        <img src={getImageUrl(skills && skills.image4)} alt="Face4" />
-                    </div>
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace5">
-                        <img src={getImageUrl(skills && skills.image5)} alt="Face5" />
-                    </div>
-                    <div className="homeCubeSkillsFaces homeCubeSkillsFace6">
-                        <img src={getImageUrl(skills && skills.image6)} alt="Face6" />
-                    </div>
+                  </div>
                 </div>
 
                 <div className="cubeShadow"></div>
-                <div className="homeskillsBox" id="homeskillsBox">
-                    <div className="skillIcon">
-                        <SiJavascript />
-                        <span className="skillTooltip">JavaScript</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiNodedotjs />
-                        <span className="skillTooltip">Node.js</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiExpress />
-                        <span className="skillTooltip">Express</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiCss3 />
-                        <span className="skillTooltip">CSS3</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiHtml5 />
-                        <span className="skillTooltip">HTML5</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiPython />
-                        <span className="skillTooltip">Python</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiGit />
-                        <span className="skillTooltip">Git</span>
-                    </div>
-                    <div className="skillIcon">
-                        <SiFigma />
-                        <span className="skillTooltip">Figma</span>
-                    </div>
-                </div>
             </div>
         </div>
     )
