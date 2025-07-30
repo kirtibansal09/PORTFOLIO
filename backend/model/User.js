@@ -48,17 +48,6 @@ const userSchema = new mongoose.Schema({
         },
     },
 
-    youTube:[
-        {
-            url: String,
-            title: String,
-            image: {
-                public_id: String,
-                url: String,
-            },
-        },
-    ],
-
     projects:[
         {
             url: String,
